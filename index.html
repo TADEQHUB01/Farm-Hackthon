@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Registro de Plantas – FARMING NASA</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <nav>
+      <ul>
+        <li><button id="subpage-btn">Maps</button></li>
+        <li><button id="home-btn" class="hidden">Regresar</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div id="main-content">
+    <div class="section" id="projects">
+      <h2>🌼 Projects – Registro de Plantas</h2>
+      <div class="api-box">
+        <div class="input-group">
+          <label for="userName">Nombre del usuario:</label>
+          <input type="text" id="userName" placeholder="Ej. Tadeo">
+        </div>
+        <div class="input-group">
+          <label for="plantName">Nombre de la planta:</label>
+          <input type="text" id="plantName" placeholder="Ej. Lavanda, Salvia, Trébol">
+        </div>
+        <div class="input-group">
+          <label for="location">Ubicación:</label>
+          <input type="text" id="location" placeholder="Ej. Zapopan, Jalisco" data-api-ready="true">
+        </div>
+        <button onclick="registerPlant()">Registrar planta</button>
+        <div id="registerResult"></div>
+      </div>
+    </div>
+
+    <div class="section" id="areas">
+      <h2>📅 Areas – Recomendación de cultivo</h2>
+      <div class="api-box">
+        <button onclick="recommendPlanting()">¿Cuándo iniciar cultivo?</button>
+        <div id="questionario" class="hidden">
+          <form id="cultivoForm">
+            <label for="region">Región:</label>
+            <input type="text" id="region" name="region" required pattern="[A-Za-z\s]+" />
+
+            <label for="cultivo">Tipo de cultivo:</label>
+            <label for="latitude">Latitud:</label>
+<input type="number" id="latitude" name="latitude" step="0.0001" placeholder="Ej. -10.5" required />
+
+<label for="longitude">Longitud:</label>
+<input type="number" id="longitude" name="longitude" step="0.0001" placeholder="Ej. -65.3" required />
+            <select id="cultivo" name="cultivo" required>
+              <option value="">Selecciona</option>
+              <option value="maiz">Maíz</option>
+              <option value="trigo">Trigo</option>
+              <option value="jitomate">Jitomate</option>
+            </select>
+
+            <label for="fecha">Fecha tentativa:</label>
+            <input type="date" id="fecha" name="fecha" required />
+
+            <button type="submit">Enviar</button>
+          </form>
+          <div id="recommendationResult"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" id="resources">
+      <h2>📚 Recursos – Datos externos</h2>
+      <div class="api-box">
+        <button onclick="getWeather()">Consultar clima actual</button>
+        <div id="weatherResult"></div>
+      </div>
+    </div>
+
+    <div class="section" id="archives">
+      <h2>🗄️ Plantas – Historial de registros</h2>
+      <div class="api-box">
+        <!-- Espacio reservado para historial -->
+      </div>
+    </div>
+  </div>
+
+  <div class="section hidden" id="subpage">
+    <h2>🧭 Subpágina – Maps</h2>
+    <div class="section">
+      <p>Visualización de mapas idk.</p>
+      <div class="input-group">
+        <label for="mapLocation">Ubicación o coordenadas:</label>
+        <input type="text" id="mapLocation" placeholder="Ej. Zapopan, Jalisco o 20.7,-103.4">
+      </div>
+      <button onclick="loadMap()">Desplegar mapa</button>
+    </div>
+    <div id="map" style="height: 400px; margin-top: 1rem; border: 1px solid #ccc; border-radius: 6px;"></div>
+  </div>
+
+  <script src="registro.js"></script>
+  <script>
+    const subpageBtn = document.getElementById('subpage-btn');
+    const homeBtn = document.getElementById('home-btn');
+    const mainContent = document.getElementById('main-content');
+    const subpage = document.getElementById('subpage');
+
+    subpageBtn.addEventListener('click', () => {
+      mainContent.classList.add('hidden');
+      subpage.classList.remove('hidden');
+      subpageBtn.classList.add('hidden');
+      homeBtn.classList.remove('hidden');
+    });
+
+    homeBtn.addEventListener('click', () => {
+      subpage.classList.add('hidden');
+      mainContent.classList.remove('hidden');
+      homeBtn.classList.add('hidden');
+      subpageBtn.classList.remove('hidden');
+    });
+
+    function recommendPlanting() {
+      document.getElementById("questionario").classList.toggle("hidden");
+    }
+
+    document.getElementById("cultivoForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const region = document.getElementById("region").value.trim();
+      const cultivo = document.getElementById("cultivo").value;
+      const fecha = document.getElementById("fecha").value;
+
+      const resultado = `📍 Región: ${region}\n🌱 Cultivo: ${cultivo}\n📅 Fecha sugerida: ${fecha}`;
+      document.getElementById("recommendationResult").innerText = resultado;
+    });
+
+    function getWeather() {
+      document.getElementById("weatherResult").innerText = "☁️ Clima actual: función pendiente de integración.";
+    }
+  </script>
+</body>
+</html>
